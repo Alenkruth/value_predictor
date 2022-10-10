@@ -1,4 +1,4 @@
-### Value Predictor designed for the value prediction championship in course cs6354.
+### Value Predictor (re)designed for better performance loads. Completely based on the EVES predictor proposed in the CVP v1.
 
 # CVP Infrastructure
 
