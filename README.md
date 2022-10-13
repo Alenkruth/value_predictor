@@ -38,6 +38,11 @@
 - Includes CVP1 winner as baseline value predictor (vs. under-performing FCM-based predictor in CVP1)
 - Added spdlog/fmt libraries for printing
 
+## CVP - UVA CS6354 Changelog
+
+- The mypredictor.cc file contains an parameterized implementation of the EVES predictor (winner of CVP1).
+- The mypredictor.h has parameters which can be tuned for testing out different configurations of the predictor.
+ 
 ## Examples & Tracks
 
 See Simulator options:
