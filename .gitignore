@@ -30,7 +30,7 @@
 *.exe
 *.out
 *.app
-cvp # ignoring the cvp executable since it does not have any of the listed extensions
-
+*cvp* # ignoring the cvp executable since it does not have any of the listed extensions
+!cvp.h
 # Trace directory
 /traces/*
