@@ -43,7 +43,7 @@ echo "running srv 0" && ./cvp -v -t 1 ./traces/srv_0.gz &> $logdir/srv_0.txt &
 echo "running srv 10" && ./cvp -v -t 1 ./traces/srv_10.gz &> $logdir/srv_10.txt &
 echo "running srv 20" && ./cvp -v -t 1 ./traces/srv_20.gz &> $logdir/srv_20.txt &
 echo "running srv 30" && ./cvp -v -t 1 ./traces/srv_30.gz &> $logdir/srv_30.txt &
-echo "running srv 40" && ./cvp -v -t 1 ./traces/srv_30.gz &> $logdir/srv_40.txt
+echo "running srv 40" && ./cvp -v -t 1 ./traces/srv_40.gz &> $logdir/srv_40.txt
 
 wait
 
@@ -53,7 +53,9 @@ echo "finished running the traces with the updated value predictor"
 echo "grepping the results"
 grep -nH -e "IPC" -r ./logs/$timestamp/*.txt 2>&1 | tee $logdir/grepIPC.txt
 
-python3 main.py $timestamp 2>&1 | tee $logdir/averageIPC.txt
+grep -nH -e "TOTAL SIZE" -r ./logs/$timestamp/srv_40.txt 2>&1 | tee $logdir/grepSize.txt
+
+python3 main.py $timestamp 2>&1 | tee $logdir/predictor_stats.txt
 
 echo "you can find your logs in the logs directory"
 echo "done"	
