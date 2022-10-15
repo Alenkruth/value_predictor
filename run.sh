@@ -9,7 +9,7 @@
 # create a variable to keep track of the time stamp
 timestamp=$(date "+%Y-%m-%d_%H-%M-%S")
 
-if [! -d ./logs]
+if [ ! -d ./logs];
 then 
     mkdir logs
     echo "created logs directory"
