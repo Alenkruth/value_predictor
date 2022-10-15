@@ -9,7 +9,7 @@
 # create a variable to keep track of the time stamp
 timestamp=$(date "+%Y-%m-%d_%H-%M-%S")
 
-if [ ! -d ./logs];
+if [ ! -d ./logs ];
 then 
     mkdir logs
     echo "created logs directory"
@@ -53,7 +53,7 @@ echo "finished running the traces with the updated value predictor"
 echo "grepping the results"
 grep -nH -e "IPC" -r ./logs/$timestamp/*.txt 2>&1 | tee $logdir/grepIPC.txt
 
-python3 main.py $timestamp
+python3 main.py $timestamp 2>&1 | tee averageIPC.txt
 
 echo "you can find your logs in the logs directory"
 echo "done"	
