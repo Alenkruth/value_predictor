@@ -34,3 +34,12 @@
 !cvp.h
 # Trace directory
 /traces/*
+
+# log director
+/logs/*
+
+# ignore swp
+.*.swp*
+
+# ignpre txt files
+*.txt
