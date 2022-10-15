@@ -1,5 +1,10 @@
 #!/bin/bash
-#file run_traces.sh
+#file run.sh
+
+# script to automate the running of all the traces and obtain the mean IPC.
+# built as a part of the CVP in CS6354 - UVA CS
+# author(s) - Khyati Kiyawat, Alenkruth Krishnan Murali
+# email - 
 
 # create a variable to keep track of the time stamp
 timestamp=$(date "+%Y-%m-%d_%H-%M-%S")
@@ -18,7 +23,7 @@ echo "Cleaning the existing binaries and rebuilding"
 
 # run make
 make clean &> ./logs/log_make_clean.txt
-make -j$runs 2>&1 | tee ./logs/log_make_build.txt
+make 2>&1 | tee ./logs/log_make_build.txt
 
 echo "done making"
 
@@ -37,6 +42,7 @@ echo "running compute int 9" && ./cvp -v -t 1 ./traces/compute_int_9.gz &> $logd
 echo "running srv 0" && ./cvp -v -t 1 ./traces/srv_0.gz &> $logdir/srv_0.txt &
 echo "running srv 10" && ./cvp -v -t 1 ./traces/srv_10.gz &> $logdir/srv_10.txt &
 echo "running srv 20" && ./cvp -v -t 1 ./traces/srv_20.gz &> $logdir/srv_20.txt &
+echo "running srv 30" && ./cvp -v -t 1 ./traces/srv_30.gz &> $logdir/srv_30.txt &
 echo "running srv 40" && ./cvp -v -t 1 ./traces/srv_30.gz &> $logdir/srv_40.txt
 
 wait
@@ -47,11 +53,7 @@ echo "finished running the traces with the updated value predictor"
 echo "grepping the results"
 grep -nH -e "IPC" -r ./logs/$timestamp/*.txt 2>&1 | tee $logdir/grepIPC.txt
 
-python3 getIPC.py
+python3 main.py $timestamp
 
-echo "done"
-#for trace in ./traces/*; do
-#    tracename=echo `basename $trace`
-#    # echo "running trace $tracename"
-#    ./cvp -v -t 2 $trace &> $logdir/"$tracename"_2.txt
-#done	
+echo "you can find your logs in the logs directory"
+echo "done"	
