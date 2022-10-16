@@ -177,3 +177,14 @@ correct predictions              = 885532 (4.46%)
 incorrect predictions            = 21692 (0.11%)
  Read 30002325 instrs 
 ```
+
+#notes
+
+While running the compute_int workloads and srv workloads (5 each)
+
+- IPC for Value predictor size:
+	1. 8K - 3.3119
+	2. 32K - 3.3479
+	3. Unlimited -
+	3. 16K (custom - <commit_ID>) - 
+

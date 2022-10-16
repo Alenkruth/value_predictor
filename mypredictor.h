@@ -48,6 +48,31 @@ int HL[NHIST + 1] = { 0, 0, 3, 7, 15, 31, 63, 90, 127 };
 #endif
 //END 32 KB//
 
+// custom CS6354 16K//
+// #define CS6354K16
+#ifdef CS6354K16
+
+// 4.202 //3.729 for stride only  //3.570 for VTAGE only 
+// 262018 bits
+#define UWIDTH 2 // K32 - 2 | K8 - 2 | KUL - 1 
+#define LOGLDATA 9 // K32 - 9 | K8 - 7 | KUL - 20
+#define LOGBANK 7 // K32 - 7 | K8 - 5| KUL - 20
+#define TAGWIDTH 11 // K32 - 11 | K8 - 11| KUL - 15
+#define NBBANK 49 // K32 - 49 | K8 - 47| KUL - 63
+
+#define NHIST 8 // K32 - 8 | K8 -| KUL -
+int HL[NHIST + 1] = { 0, 0, 3, 7, 15, 31, 63, 90, 127 };
+// K32 - int HL[NHIST + 1] = {0, 0, 3, 7, 15, 31, 63, 90, 127}
+// K8 - int HL[NHIST + 1] = {0, 0, 1, 3, 6, 12, 18, 30}
+// KUL - int HL[NHIST + 1] = {0, 0, 1, 3, 7, 15, 31, 47, 63, 95, 127, 191, 255, 383, 511}
+
+#define LOGSTR 4 // K32 - 4 | K8 - 4 | KUL - 20 
+#define NBWAYSTR 3 // K32 - 3 | K8 - 3 | KUL - 15
+#define TAGWIDTHSTR 14 // K32 - 14 | K8 - 14 | KUL - 30
+#define LOGSTRIDE 20 // K32 - 20 | K8 - 20 | KUL - 3
+#endif
+//END custom CS6354 16K//
+
 // 8KB //
 #define K8
 #ifdef K8
