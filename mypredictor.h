@@ -55,13 +55,13 @@ int HL[NHIST + 1] = { 0, 0, 3, 7, 15, 31, 63, 90, 127 };
 // ?????? //?????? for stride only  //????? for VTAGE only 
 // ???????? bits
 #define UWIDTH 2 // K32 - 2 | K8 - 2 | KUL - 1 
-#define LOGLDATA 7 // K32 - 9 | K8 - 7 | KUL - 20
-#define LOGBANK 5 // K32 - 7 | K8 - 5| KUL - 20
+#define LOGLDATA 8 // K32 - 9 | K8 - 7 | KUL - 20
+#define LOGBANK 6 // K32 - 7 | K8 - 5| KUL - 20
 #define TAGWIDTH 11 // K32 - 11 | K8 - 11| KUL - 15
-#define NBBANK 47 // K32 - 49 | K8 - 47| KUL - 63
+#define NBBANK 48 // K32 - 49 | K8 - 47| KUL - 63
 
-#define NHIST 14 // K32 - 8 | K8 - 7 | KUL - 14
-int HL[NHIST + 1] = { 0, 0, 1, 3, 7, 15, 31, 47, 63, 95, 127, 191, 255, 383, 511 };
+#define NHIST 11 // K32 - 8 | K8 - 7 | KUL - 14
+int HL[NHIST + 1] = { 0, 0, 1, 3, 6, 12, 18, 30, 63, 90, 127, 191};
 // K32 - int HL[NHIST + 1] = {0, 0, 3, 7, 15, 31, 63, 90, 127}
 // K8 - int HL[NHIST + 1] = {0, 0, 1, 3, 6, 12, 18, 30}
 // KUL - int HL[NHIST + 1] = {0, 0, 1, 3, 7, 15, 31, 47, 63, 95, 127, 191, 255, 383, 511}
