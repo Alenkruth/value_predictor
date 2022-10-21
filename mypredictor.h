@@ -202,7 +202,7 @@ gi (int i, uint64_t pc)
   int hl = (HL[i] < 64) ? (HL[i] % 64) : 64;
   uint64_t inter = (hl < 64) ? (((1 << hl) - 1) & gpath[0]) : gpath[0];
   uint64_t res = 0;
-  inter ^= (pc >> (i)) ^ (pc);
+  inter ^= (pc >> (i)) ^ (pc); // ^ (pc >> HL[i]); // ^ (pc << (HL[i]%32));
 
   for (int t = 0; t < 8; t++)
     {
@@ -258,7 +258,7 @@ gtag (int i, uint64_t pc)
   uint64_t inter = (hl < 64) ? (((1 << hl) - 1) & gpath[0]) : gpath[0];
 
   uint64_t res = 0;
-  inter ^= ((pc >> (i)) ^ (pc >> (5 + i)) ^ (pc));
+  inter ^= ((pc >> (i)) ^ (pc >> (5 + i)) ^ (pc) ^ (pc>>HL[i]%64));
   for (int t = 0; t < 8; t++)
     {
       res ^= inter;
