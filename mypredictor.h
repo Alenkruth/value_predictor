@@ -213,6 +213,7 @@ gi (int i, uint64_t pc)
   hl = (hl < (HL[NHIST] + 1) / 2) ? hl : ((HL[NHIST] + 1) / 2);
 
   inter ^= (hl < 64) ? (((1 << hl) - 1) & gtargeth) : gtargeth;
+  inter ^= (gtargeth | ((1 << hl)-1));
   for (int t = 0; t <= hl / LOGBANK; t++)
     {
       res ^= inter;
