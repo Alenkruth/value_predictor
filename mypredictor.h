@@ -186,7 +186,7 @@ struct vtentry
 
 static vtentry Vtage[PREDSIZE];
 
-#define  MAXTICK 1024
+#define  MAXTICK 256
 static int TICK;		//10 bits // for managing replacement on the VTAGE entries
 static int LastMispVT = 0;	//8 bits //for tracking the last misprediction on VTAGE
 
