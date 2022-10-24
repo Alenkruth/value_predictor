@@ -399,4 +399,31 @@ check the commits for more information
 - submission 5 and 6 started out with lowered performance. But tweaking the hash functions made them perform really well.
 
 
-
+running compute int 25
+running compute int 26
+running compute int 27
+running compute int 9
+running srv 0
+running srv 10
+running srv 20
+running srv 40
+running srv 30
+finished running the traces with the updated value predictor
+grepping the results
+./logs/2022-10-24_17-15-17/compute_int_18.txt:381:IPC          = 4.218
+./logs/2022-10-24_17-15-17/compute_int_25.txt:381:IPC          = 8.344
+./logs/2022-10-24_17-15-17/compute_int_26.txt:381:IPC          = 4.269
+./logs/2022-10-24_17-15-17/compute_int_27.txt:381:IPC          = 1.037
+./logs/2022-10-24_17-15-17/compute_int_9.txt:381:IPC          = 3.395
+./logs/2022-10-24_17-15-17/srv_0.txt:381:IPC          = 1.594
+./logs/2022-10-24_17-15-17/srv_10.txt:381:IPC          = 1.665
+./logs/2022-10-24_17-15-17/srv_20.txt:381:IPC          = 1.530
+./logs/2022-10-24_17-15-17/srv_30.txt:381:IPC          = 3.805
+./logs/2022-10-24_17-15-17/srv_40.txt:381:IPC          = 2.741
+./logs/2022-10-24_17-15-17/srv_40.txt:305:STORAGE SIZE: STRIDE (332 bits) |Value array:  (44544 bits) |VTAGE:  (86034 bits) ||| TOTAL SIZE: 130910 bits
+Adding 127 by default for the history register that TAGE uses
+predictor size in bits => 131037
+The average IPC is 3.2598
+The predictor size is 15.9957275390625 kB
+you can find your logs in the logs directory
+done
