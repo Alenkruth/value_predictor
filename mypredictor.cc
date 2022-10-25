@@ -735,7 +735,7 @@ UpdateVtagePred (ForUpdate * U, uint64_t actual_value, int actual_latency)
 #ifdef K8
 	    TICK += NA - (3 * ALL);
 #else
-	    TICK += (NA - (5 * ALL));
+	    TICK += (NA - (7 * ALL));
 #endif
 	    if (TICK < 0)
 	      TICK = 0;
