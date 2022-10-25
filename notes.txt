@@ -367,3 +367,63 @@ interpretation - number entries (NBBANK) is more impacting than the tag width.
 The average IPC is 3.2559000000000005
 The predictor size is 15.816162109375 kB
 
+# submission_4
+
+/logs/2022-10-18_14-56-07/compute_int_18.txt:381:IPC          = 4.210
+./logs/2022-10-18_14-56-07/compute_int_25.txt:381:IPC          = 8.339
+./logs/2022-10-18_14-56-07/compute_int_26.txt:381:IPC          = 4.285
+./logs/2022-10-18_14-56-07/compute_int_27.txt:381:IPC          = 1.036
+./logs/2022-10-18_14-56-07/compute_int_9.txt:381:IPC          = 3.383
+./logs/2022-10-18_14-56-07/srv_0.txt:381:IPC          = 1.594
+./logs/2022-10-18_14-56-07/srv_10.txt:381:IPC          = 1.663
+./logs/2022-10-18_14-56-07/srv_20.txt:381:IPC          = 1.530
+./logs/2022-10-18_14-56-07/srv_30.txt:381:IPC          = 3.804
+./logs/2022-10-18_14-56-07/srv_40.txt:381:IPC          = 2.739
+./logs/2022-10-18_14-56-07/srv_40.txt:305:STORAGE SIZE: STRIDE (332 bits) |Value array:  (44544 bits) |VTAGE:  (86034 bits) ||| TOTAL SIZE: 130910 bits
+Adding 127 by default for the history register that TAGE uses
+predictor size in bits => 131037
+The average IPC is 3.2582999999999998
+The predictor size is 15.9957275390625 kB
+you can find your logs in the logs directory
+done
+
+-> best result ever within the storage budget.
+-> improvement over the 16.1kB version (submission 3)
+-> can we do better??
+
+# submission_6 and submission_5 do better than this
+
+check the commits for more information
+- adding more chaos to the hashing functions while keeping them orthogonal is really good for the predictor
+- while adding randomness, make sure to not add more context to the hashes. That will hinder performance.
+- submission 5 and 6 started out with lowered performance. But tweaking the hash functions made them perform really well.
+
+
+running compute int 25
+running compute int 26
+running compute int 27
+running compute int 9
+running srv 0
+running srv 10
+running srv 20
+running srv 40
+running srv 30
+finished running the traces with the updated value predictor
+grepping the results
+./logs/2022-10-24_17-15-17/compute_int_18.txt:381:IPC          = 4.218
+./logs/2022-10-24_17-15-17/compute_int_25.txt:381:IPC          = 8.344
+./logs/2022-10-24_17-15-17/compute_int_26.txt:381:IPC          = 4.269
+./logs/2022-10-24_17-15-17/compute_int_27.txt:381:IPC          = 1.037
+./logs/2022-10-24_17-15-17/compute_int_9.txt:381:IPC          = 3.395
+./logs/2022-10-24_17-15-17/srv_0.txt:381:IPC          = 1.594
+./logs/2022-10-24_17-15-17/srv_10.txt:381:IPC          = 1.665
+./logs/2022-10-24_17-15-17/srv_20.txt:381:IPC          = 1.530
+./logs/2022-10-24_17-15-17/srv_30.txt:381:IPC          = 3.805
+./logs/2022-10-24_17-15-17/srv_40.txt:381:IPC          = 2.741
+./logs/2022-10-24_17-15-17/srv_40.txt:305:STORAGE SIZE: STRIDE (332 bits) |Value array:  (44544 bits) |VTAGE:  (86034 bits) ||| TOTAL SIZE: 130910 bits
+Adding 127 by default for the history register that TAGE uses
+predictor size in bits => 131037
+The average IPC is 3.2598
+The predictor size is 15.9957275390625 kB
+you can find your logs in the logs directory
+done
