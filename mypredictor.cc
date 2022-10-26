@@ -24,7 +24,7 @@ getPredVtage (ForUpdate * U, uint64_t & predicted_value)
 {
   bool predvtage = false;
   uint64_t pc = U->pc;
-  uint64_t PCindex = ((pc) ^ (pc >> 2) ^ (pc >> 5)) % PREDSIZE;
+  uint64_t PCindex = ((pc) ^ (pc >> 2) ^ (pc >> 5) ^ (pc >> 9)) % PREDSIZE;
   uint64_t PCbank = (PCindex >> LOGBANK) << LOGBANK;
   for (int i = 1; i <= NHIST; i++)
     {
@@ -104,7 +104,7 @@ getPredStride (ForUpdate * U, uint64_t & predicted_value, uint64_t seq_no)
       {				// hit
 	uint64_t LastCommitedValue = STR[STHIT].LastValue;
 
-	if (STR[STHIT].conf >= MAXCONFIDSTR / 4)
+	if (STR[STHIT].conf >= MAXCONFIDSTR)
 
 
 	  {
@@ -735,7 +735,7 @@ UpdateVtagePred (ForUpdate * U, uint64_t actual_value, int actual_latency)
 #ifdef K8
 	    TICK += NA - (3 * ALL);
 #else
-	    TICK += (NA - (5 * ALL));
+	    TICK += (NA - (7 * ALL));
 #endif
 	    if (TICK < 0)
 	      TICK = 0;

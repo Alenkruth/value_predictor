@@ -26,7 +26,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #define PREDVTAGE
 
 // 32KB //
-//#define K32
+// #define K32
 #ifdef K32
 
 // 4.202 //3.729 for stride only  //3.570 for VTAGE only 
@@ -49,32 +49,32 @@ int HL[NHIST + 1] = { 0, 0, 3, 7, 15, 31, 63, 90, 127 };
 //END 32 KB//
 
 // custom CS6354 16K//
-// #define CS6354K16
+#define CS6354K16
 #ifdef CS6354K16
 
-// 4.202 //3.729 for stride only  //3.570 for VTAGE only 
-// 262018 bits
-#define UWIDTH 2 // K32 - 2 | K8 - 2 | KUL - 1 
-#define LOGLDATA 9 // K32 - 9 | K8 - 7 | KUL - 20
-#define LOGBANK 7 // K32 - 7 | K8 - 5| KUL - 20
-#define TAGWIDTH 11 // K32 - 11 | K8 - 11| KUL - 15
-#define NBBANK 49 // K32 - 49 | K8 - 47| KUL - 63
+// ?????? //?????? for stride only  //????? for VTAGE only 
+// ???????? bits
+#define UWIDTH 1 // K32 - 2 | K8 - 2 | KUL - 1 
+#define LOGLDATA 8 // K32 - 9 | K8 - 7 | KUL - 20
+#define LOGBANK 6 // K32 - 7 | K8 - 5| KUL - 20
+#define TAGWIDTH 14 // K32 - 11 | K8 - 11| KUL - 15
+#define NBBANK 48 // K32 - 49 | K8 - 47| KUL - 63
 
-#define NHIST 8 // K32 - 8 | K8 -| KUL -
-int HL[NHIST + 1] = { 0, 0, 3, 7, 15, 31, 63, 90, 127 };
+#define NHIST 13 // K32 - 8 | K8 - 7 | KUL - 14
+int HL[NHIST + 1] = { 0, 0, 1, 3, 6, 12, 18, 30, 63, 90, 127, 127, 127, 127};
 // K32 - int HL[NHIST + 1] = {0, 0, 3, 7, 15, 31, 63, 90, 127}
 // K8 - int HL[NHIST + 1] = {0, 0, 1, 3, 6, 12, 18, 30}
 // KUL - int HL[NHIST + 1] = {0, 0, 1, 3, 7, 15, 31, 47, 63, 95, 127, 191, 255, 383, 511}
 
-#define LOGSTR 4 // K32 - 4 | K8 - 4 | KUL - 20 
-#define NBWAYSTR 3 // K32 - 3 | K8 - 3 | KUL - 15
-#define TAGWIDTHSTR 14 // K32 - 14 | K8 - 14 | KUL - 30
-#define LOGSTRIDE 20 // K32 - 20 | K8 - 20 | KUL - 3
+#define LOGSTR 2 // K32 - 4 | K8 - 4 | KUL - 20 
+#define NBWAYSTR 1 // K32 - 3 | K8 - 3 | KUL - 15
+#define TAGWIDTHSTR 5 // K32 - 14 | K8 - 14 | KUL - 30
+#define LOGSTRIDE 2 // K32 - 20 | K8 - 20 | KUL - 3
 #endif
 //END custom CS6354 16K//
 
 // 8KB //
-#define K8
+// #define K8
 #ifdef K8
 // 8KB
 // 4.026 //3.729 Stride only // 3.437 for TAGE  only
@@ -138,7 +138,7 @@ std::unordered_map<uint64_t, uint8_t> memory;
 
 // Global path history
 
-static uint64_t gpath[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+static uint64_t gpath[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 /* using up to 512 bits of path history was found to result in some performance benefit : essentially in the unlimited case. I did not explore longer histories */
 
@@ -186,7 +186,7 @@ struct vtentry
 
 static vtentry Vtage[PREDSIZE];
 
-#define  MAXTICK 1024
+#define  MAXTICK 256
 static int TICK;		//10 bits // for managing replacement on the VTAGE entries
 static int LastMispVT = 0;	//8 bits //for tracking the last misprediction on VTAGE
 
@@ -202,7 +202,7 @@ gi (int i, uint64_t pc)
   int hl = (HL[i] < 64) ? (HL[i] % 64) : 64;
   uint64_t inter = (hl < 64) ? (((1 << hl) - 1) & gpath[0]) : gpath[0];
   uint64_t res = 0;
-  inter ^= (pc >> (i)) ^ (pc);
+  inter ^= (pc >> (i)) ^ (pc); // ^ (pc >> HL[i]); // ^ (pc << (HL[i]%32));
 
   for (int t = 0; t < 8; t++)
     {
@@ -213,6 +213,7 @@ gi (int i, uint64_t pc)
   hl = (hl < (HL[NHIST] + 1) / 2) ? hl : ((HL[NHIST] + 1) / 2);
 
   inter ^= (hl < 64) ? (((1 << hl) - 1) & gtargeth) : gtargeth;
+  inter ^= (gtargeth | ((1 << hl)-1));
   for (int t = 0; t <= hl / LOGBANK; t++)
     {
       res ^= inter;
@@ -257,7 +258,7 @@ gtag (int i, uint64_t pc)
   uint64_t inter = (hl < 64) ? (((1 << hl) - 1) & gpath[0]) : gpath[0];
 
   uint64_t res = 0;
-  inter ^= ((pc >> (i)) ^ (pc >> (5 + i)) ^ (pc));
+  inter ^= ((pc >> (i)) ^ (pc >> (5 + i)) ^ (pc) ^ (pc>>HL[i]%64));
   for (int t = 0; t < 8; t++)
     {
       res ^= inter;

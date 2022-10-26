@@ -30,6 +30,9 @@ def averageIPC(dirname):
         for line in grepfile:
             predictor_size_string = (line.split(" ||| ")[1]).split(": ")[1]
             predictor_size_bits = int(predictor_size_string.split(" bits")[0])
+    print("Adding 127 by default for the history register that TAGE uses")
+    predictor_size_bits = predictor_size_bits + 127
+    print(f"predictor size in bits => {predictor_size_bits}")
     predictor_size_bytes = (predictor_size_bits/8)
     predictor_size_kbytes = (predictor_size_bytes/1024)
     

@@ -1,0 +1,429 @@
+# running with increased entries in the value table and VTAGE array (2x of 8k)
+
+grepping the results
+./logs/2022-10-15_19-11-36/compute_int_18.txt:381:IPC          = 4.209
+./logs/2022-10-15_19-11-36/compute_int_25.txt:381:IPC          = 8.072
+./logs/2022-10-15_19-11-36/compute_int_26.txt:381:IPC          = 4.195
+./logs/2022-10-15_19-11-36/compute_int_27.txt:381:IPC          = 1.016
+./logs/2022-10-15_19-11-36/compute_int_9.txt:381:IPC          = 3.379
+./logs/2022-10-15_19-11-36/srv_0.txt:381:IPC          = 1.594
+./logs/2022-10-15_19-11-36/srv_10.txt:381:IPC          = 1.662
+./logs/2022-10-15_19-11-36/srv_20.txt:381:IPC          = 1.530
+./logs/2022-10-15_19-11-36/srv_30.txt:381:IPC          = 3.789
+./logs/2022-10-15_19-11-36/srv_40.txt:381:IPC          = 2.735
+./logs/2022-10-15_19-11-36/srv_40.txt:305:STORAGE SIZE: STRIDE (5104 bits) |Value array:  (44544 bits) |VTAGE:  (79890 bits) ||| TOTAL SIZE: 129538 bits
+The average IPC is 3.2181000000000006
+The predictor size is 15.812744140625 kB
+you can find your logs in the logs directory
+done
+
+# running with increased entries in the value table and VTAGE array (2x of 8K)
+# increase the history register length, creating more TAGE predictors working on our stuff
+# increase NHIST to 10 (add 63, 90, 127)
+
+repping the results
+./logs/2022-10-15_19-15-15/compute_int_18.txt:381:IPC          = 4.189
+./logs/2022-10-15_19-15-15/compute_int_25.txt:381:IPC          = 8.067
+./logs/2022-10-15_19-15-15/compute_int_26.txt:381:IPC          = 4.243
+./logs/2022-10-15_19-15-15/compute_int_27.txt:381:IPC          = 1.018
+./logs/2022-10-15_19-15-15/compute_int_9.txt:381:IPC          = 3.372
+./logs/2022-10-15_19-15-15/srv_0.txt:381:IPC          = 1.591
+./logs/2022-10-15_19-15-15/srv_10.txt:381:IPC          = 1.662
+./logs/2022-10-15_19-15-15/srv_20.txt:381:IPC          = 1.529
+./logs/2022-10-15_19-15-15/srv_30.txt:381:IPC          = 3.788
+./logs/2022-10-15_19-15-15/srv_40.txt:381:IPC          = 2.732
+./logs/2022-10-15_19-15-15/srv_40.txt:305:STORAGE SIZE: STRIDE (5104 bits) |Value array:  (44544 bits) |VTAGE:  (79890 bits) ||| TOTAL SIZE: 129538 bits
+The average IPC is 3.2191
+The predictor size is 15.812744140625 kB
+you can find your logs in the logs directory
+done
+
+# using the same configuration as above, but with an increase in the number of history registers.
+# NHIST = 11, added 255
+
+repping the results
+./logs/2022-10-15_19-18-34/compute_int_18.txt:381:IPC          = 4.182
+./logs/2022-10-15_19-18-34/compute_int_25.txt:381:IPC          = 8.059
+./logs/2022-10-15_19-18-34/compute_int_26.txt:381:IPC          = 4.291
+./logs/2022-10-15_19-18-34/compute_int_27.txt:381:IPC          = 1.033
+./logs/2022-10-15_19-18-34/compute_int_9.txt:381:IPC          = 3.369
+./logs/2022-10-15_19-18-34/srv_0.txt:381:IPC          = 1.590
+./logs/2022-10-15_19-18-34/srv_10.txt:381:IPC          = 1.661
+./logs/2022-10-15_19-18-34/srv_20.txt:381:IPC          = 1.528
+./logs/2022-10-15_19-18-34/srv_30.txt:381:IPC          = 3.783
+./logs/2022-10-15_19-18-34/srv_40.txt:381:IPC          = 2.731
+./logs/2022-10-15_19-18-34/srv_40.txt:305:STORAGE SIZE: STRIDE (5104 bits) |Value array:  (44544 bits) |VTAGE:  (79890 bits) ||| TOTAL SIZE: 129538 bits
+The average IPC is 3.2227000000000006
+The predictor size is 15.812744140625 kB
+you can find your logs in the logs directory
+done
+
+# using the same configuration as before. With increased history register length.
+# pushing it till the point of diminishing returns.
+# made NHIST to 14, changed a lot of values and updated length to 511.
+# result, loss in IPC. Hit a point of slowdown.
+
+repping the results
+./logs/2022-10-15_19-36-39/compute_int_18.txt:381:IPC          = 4.171
+./logs/2022-10-15_19-36-39/compute_int_25.txt:381:IPC          = 8.046
+./logs/2022-10-15_19-36-39/compute_int_26.txt:381:IPC          = 4.225
+./logs/2022-10-15_19-36-39/compute_int_27.txt:381:IPC          = 1.032
+./logs/2022-10-15_19-36-39/compute_int_9.txt:381:IPC          = 3.369
+./logs/2022-10-15_19-36-39/srv_0.txt:381:IPC          = 1.589
+./logs/2022-10-15_19-36-39/srv_10.txt:381:IPC          = 1.658
+./logs/2022-10-15_19-36-39/srv_20.txt:381:IPC          = 1.527
+./logs/2022-10-15_19-36-39/srv_30.txt:381:IPC          = 3.767
+./logs/2022-10-15_19-36-39/srv_40.txt:381:IPC          = 2.732
+./logs/2022-10-15_19-36-39/srv_40.txt:305:STORAGE SIZE: STRIDE (5104 bits) |Value array:  (44544 bits) |VTAGE:  (79890 bits) ||| TOTAL SIZE: 129538 bits
+The average IPC is 3.2116
+The predictor size is 15.812744140625 kB
+you can find your logs in the logs directory
+done
+
+# rebuilding on the configuration used before the previous one.
+# now NHIST=12, we remove one of the zeros from the start of the array
+# and we have uptill 511
+# result - slowdown like the previous case.
+# we probab;y should not do 511.
+
+./logs/2022-10-15_19-41-10/compute_int_18.txt:381:IPC          = 4.181
+./logs/2022-10-15_19-41-10/compute_int_25.txt:381:IPC          = 8.050
+./logs/2022-10-15_19-41-10/compute_int_26.txt:381:IPC          = 4.263
+./logs/2022-10-15_19-41-10/compute_int_27.txt:381:IPC          = 1.031
+./logs/2022-10-15_19-41-10/compute_int_9.txt:381:IPC          = 3.379
+./logs/2022-10-15_19-41-10/srv_0.txt:381:IPC          = 1.589
+./logs/2022-10-15_19-41-10/srv_10.txt:381:IPC          = 1.659
+./logs/2022-10-15_19-41-10/srv_20.txt:381:IPC          = 1.526
+./logs/2022-10-15_19-41-10/srv_30.txt:381:IPC          = 3.774
+./logs/2022-10-15_19-41-10/srv_40.txt:381:IPC          = 2.726
+./logs/2022-10-15_19-41-10/srv_40.txt:305:STORAGE SIZE: STRIDE (5104 bits) |Value array:  (44544 bits) |VTAGE:  (79890 bits) ||| TOTAL SIZE: 129538 bits
+The average IPC is 3.2177999999999995
+The predictor size is 15.812744140625 kB
+you can find your logs in the logs directory
+done
+
+# now we try without 511
+# NHIST remains the same. we bring 47 back in
+./logs/2022-10-15_19-46-35/compute_int_18.txt:381:IPC          = 4.178
+./logs/2022-10-15_19-46-35/compute_int_25.txt:381:IPC          = 8.051
+./logs/2022-10-15_19-46-35/compute_int_26.txt:381:IPC          = 4.279
+./logs/2022-10-15_19-46-35/compute_int_27.txt:381:IPC          = 1.033
+./logs/2022-10-15_19-46-35/compute_int_9.txt:381:IPC          = 3.380
+./logs/2022-10-15_19-46-35/srv_0.txt:381:IPC          = 1.591
+./logs/2022-10-15_19-46-35/srv_10.txt:381:IPC          = 1.660
+./logs/2022-10-15_19-46-35/srv_20.txt:381:IPC          = 1.527
+./logs/2022-10-15_19-46-35/srv_30.txt:381:IPC          = 3.780
+./logs/2022-10-15_19-46-35/srv_40.txt:381:IPC          = 2.731
+./logs/2022-10-15_19-46-35/srv_40.txt:305:STORAGE SIZE: STRIDE (5104 bits) |Value array:  (44544 bits) |VTAGE:  (79890 bits) ||| TOTAL SIZE: 129538 bits
+The average IPC is 3.221
+The predictor size is 15.812744140625 kB
+you can find your logs in the logs directory
+done
+
+# now we bring the zero back in, remove the 383
+# improved performance by a bit. Not as good as it did.
+grepping the results
+./logs/2022-10-15_19-52-41/compute_int_18.txt:381:IPC          = 4.188
+./logs/2022-10-15_19-52-41/compute_int_25.txt:381:IPC          = 8.052
+./logs/2022-10-15_19-52-41/compute_int_26.txt:381:IPC          = 4.268
+./logs/2022-10-15_19-52-41/compute_int_27.txt:381:IPC          = 1.033
+./logs/2022-10-15_19-52-41/compute_int_9.txt:381:IPC          = 3.374
+./logs/2022-10-15_19-52-41/srv_0.txt:381:IPC          = 1.591
+./logs/2022-10-15_19-52-41/srv_10.txt:381:IPC          = 1.660
+./logs/2022-10-15_19-52-41/srv_20.txt:381:IPC          = 1.528
+./logs/2022-10-15_19-52-41/srv_30.txt:381:IPC          = 3.784
+./logs/2022-10-15_19-52-41/srv_40.txt:381:IPC          = 2.733
+./logs/2022-10-15_19-52-41/srv_40.txt:305:STORAGE SIZE: STRIDE (5104 bits) |Value array:  (44544 bits) |VTAGE:  (79890 bits) ||| TOTAL SIZE: 129538 bits
+The average IPC is 3.2211
+The predictor size is 15.812744140625 kB
+you can find your logs in the logs directory
+done
+
+# int HL[NHIST + 1] = { 0, 0, 1, 3, 6, 12, 18, 30, 63, 90, 127, 191}; //, 47 };
+grepping the results
+./logs/2022-10-15_20-04-40/compute_int_18.txt:381:IPC          = 4.191
+./logs/2022-10-15_20-04-40/compute_int_25.txt:381:IPC          = 8.063
+./logs/2022-10-15_20-04-40/compute_int_26.txt:381:IPC          = 4.275
+./logs/2022-10-15_20-04-40/compute_int_27.txt:381:IPC          = 1.033
+./logs/2022-10-15_20-04-40/compute_int_9.txt:381:IPC          = 3.367
+./logs/2022-10-15_20-04-40/srv_0.txt:381:IPC          = 1.590
+./logs/2022-10-15_20-04-40/srv_10.txt:381:IPC          = 1.660
+./logs/2022-10-15_20-04-40/srv_20.txt:381:IPC          = 1.528
+./logs/2022-10-15_20-04-40/srv_30.txt:381:IPC          = 3.783
+./logs/2022-10-15_20-04-40/srv_40.txt:381:IPC          = 2.732
+./logs/2022-10-15_20-04-40/srv_40.txt:305:STORAGE SIZE: STRIDE (5104 bits) |Value array:  (44544 bits) |VTAGE:  (79890 bits) ||| TOTAL SIZE: 129538 bits
+The average IPC is 3.222200000000001
+The predictor size is 15.812744140625 kB
+you can find your logs in the logs directory
+done
+
+# when tag is 12 bits
+
+grepping the results
+./logs/2022-10-15_20-40-03/compute_int_18.txt:381:IPC          = 4.197
+./logs/2022-10-15_20-40-03/compute_int_25.txt:381:IPC          = 8.059
+./logs/2022-10-15_20-40-03/compute_int_26.txt:381:IPC          = 4.292
+./logs/2022-10-15_20-40-03/compute_int_27.txt:381:IPC          = 1.033
+./logs/2022-10-15_20-40-03/compute_int_9.txt:381:IPC          = 3.373
+./logs/2022-10-15_20-40-03/srv_0.txt:381:IPC          = 1.593
+./logs/2022-10-15_20-40-03/srv_10.txt:381:IPC          = 1.662
+./logs/2022-10-15_20-40-03/srv_20.txt:381:IPC          = 1.529
+./logs/2022-10-15_20-40-03/srv_30.txt:381:IPC          = 3.783
+./logs/2022-10-15_20-40-03/srv_40.txt:381:IPC          = 2.733
+./logs/2022-10-15_20-40-03/srv_40.txt:305:STORAGE SIZE: STRIDE (5104 bits) |Value array:  (44544 bits) |VTAGE:  (82962 bits) ||| TOTAL SIZE: 132610 bits
+The average IPC is 3.2254000000000005
+The predictor size is 16.187744140625 kB
+
+# 3.2276 for the following configuration - area 15.69kB
+diff --git a/mypredictor.h b/mypredictor.h
+index 8836986..d11e2e1 100644
+--- a/mypredictor.h
++++ b/mypredictor.h
+@@ -54,10 +54,10 @@ int HL[NHIST + 1] = { 0, 0, 3, 7, 15, 31, 63, 90, 127 };
+ 
+ // ?????? //?????? for stride only  //????? for VTAGE only 
+ // ???????? bits
+-#define UWIDTH 1 // K32 - 2 | K8 - 2 | KUL - 1 
++#define UWIDTH 0 // K32 - 2 | K8 - 2 | KUL - 1 
+ #define LOGLDATA 8 // K32 - 9 | K8 - 7 | KUL - 20
+ #define LOGBANK 6 // K32 - 7 | K8 - 5| KUL - 20
+-#define TAGWIDTH 13 // K32 - 11 | K8 - 11| KUL - 15
++#define TAGWIDTH 14 // K32 - 11 | K8 - 11| KUL - 15
+ #define NBBANK 48 // K32 - 49 | K8 - 47| KUL - 63
+ 
+ #define NHIST 11 // K32 - 8 | K8 - 7 | KUL - 14
+@@ -66,10 +66,10 @@ int HL[NHIST + 1] = { 0, 0, 1, 3, 6, 12, 18, 30, 63, 90, 127, 191};
+ // K8 - int HL[NHIST + 1] = {0, 0, 1, 3, 6, 12, 18, 30}
+ // KUL - int HL[NHIST + 1] = {0, 0, 1, 3, 7, 15, 31, 47, 63, 95, 127, 191, 255, 383, 511}
+ 
+-#define LOGSTR 3 // K32 - 4 | K8 - 4 | KUL - 20 
++#define LOGSTR 2 // K32 - 4 | K8 - 4 | KUL - 20 
+ #define NBWAYSTR 3 // K32 - 3 | K8 - 3 | KUL - 15
+-#define TAGWIDTHSTR 14 // K32 - 14 | K8 - 14 | KUL - 30
+-#define LOGSTRIDE 20 // K32 - 20 | K8 - 20 | KUL - 3
++#define TAGWIDTHSTR 11 // K32 - 14 | K8 - 14 | KUL - 30
++#define LOGSTRIDE 3 // K32 - 20 | K8 - 20 | KUL - 3
+ #endif
+ //END custom CS6354 16K//
+
+# 3.2278 
+
+@@ -54,10 +54,10 @@ int HL[NHIST + 1] = { 0, 0, 3, 7, 15, 31, 63, 90, 127 };
+ 
+ // ?????? //?????? for stride only  //????? for VTAGE only 
+ // ???????? bits
+-#define UWIDTH 1 // K32 - 2 | K8 - 2 | KUL - 1 
++#define UWIDTH 0 // K32 - 2 | K8 - 2 | KUL - 1 
+ #define LOGLDATA 8 // K32 - 9 | K8 - 7 | KUL - 20
+ #define LOGBANK 6 // K32 - 7 | K8 - 5| KUL - 20
+-#define TAGWIDTH 13 // K32 - 11 | K8 - 11| KUL - 15
++#define TAGWIDTH 15 // K32 - 11 | K8 - 11| KUL - 15
+ #define NBBANK 48 // K32 - 49 | K8 - 47| KUL - 63
+ 
+ #define NHIST 11 // K32 - 8 | K8 - 7 | KUL - 14
+@@ -66,10 +66,10 @@ int HL[NHIST + 1] = { 0, 0, 1, 3, 6, 12, 18, 30, 63, 90, 127, 191};
+ // K8 - int HL[NHIST + 1] = {0, 0, 1, 3, 6, 12, 18, 30}
+ // KUL - int HL[NHIST + 1] = {0, 0, 1, 3, 7, 15, 31, 47, 63, 95, 127, 191, 255, 383, 511}
+ 
+-#define LOGSTR 3 // K32 - 4 | K8 - 4 | KUL - 20 
+-#define NBWAYSTR 3 // K32 - 3 | K8 - 3 | KUL - 15
+-#define TAGWIDTHSTR 14 // K32 - 14 | K8 - 14 | KUL - 30
+-#define LOGSTRIDE 20 // K32 - 20 | K8 - 20 | KUL - 3
++#define LOGSTR 2 // K32 - 4 | K8 - 4 | KUL - 20 
++#define NBWAYSTR 1 // K32 - 3 | K8 - 3 | KUL - 15
++#define TAGWIDTHSTR 5 // K32 - 14 | K8 - 14 | KUL - 30
++#define LOGSTRIDE 2 // K32 - 20 | K8 - 20 | KUL - 3
+ #endif
+ //END custom CS6354 16K//
+
+# 3.2572
+
+The average IPC is 3.2572
+The predictor size is 16.355224609375 kB
+you can find your logs in the logs directory
+done
+jht9sy@uportal01:~/coursework/cs6354/value_prediction_championship/value_predictor$ vi notes.txt 
+jht9sy@uportal01:~/coursework/cs6354/value_prediction_championship/value_predictor$ git diff
+diff --git a/mypredictor.h b/mypredictor.h
+index 8836986..64f2526 100644
+--- a/mypredictor.h
++++ b/mypredictor.h
+@@ -57,7 +57,7 @@ int HL[NHIST + 1] = { 0, 0, 3, 7, 15, 31, 63, 90, 127 };
+ #define UWIDTH 1 // K32 - 2 | K8 - 2 | KUL - 1 
+ #define LOGLDATA 8 // K32 - 9 | K8 - 7 | KUL - 20
+ #define LOGBANK 6 // K32 - 7 | K8 - 5| KUL - 20
+-#define TAGWIDTH 13 // K32 - 11 | K8 - 11| KUL - 15
++#define TAGWIDTH 15 // K32 - 11 | K8 - 11| KUL - 15
+ #define NBBANK 48 // K32 - 49 | K8 - 47| KUL - 63
+ 
+ #define NHIST 11 // K32 - 8 | K8 - 7 | KUL - 14
+@@ -66,10 +66,10 @@ int HL[NHIST + 1] = { 0, 0, 1, 3, 6, 12, 18, 30, 63, 90, 127, 191};
+ // K8 - int HL[NHIST + 1] = {0, 0, 1, 3, 6, 12, 18, 30}
+ // KUL - int HL[NHIST + 1] = {0, 0, 1, 3, 7, 15, 31, 47, 63, 95, 127, 191, 255, 383, 511}
+ 
+-#define LOGSTR 3 // K32 - 4 | K8 - 4 | KUL - 20 
+-#define NBWAYSTR 3 // K32 - 3 | K8 - 3 | KUL - 15
+-#define TAGWIDTHSTR 14 // K32 - 14 | K8 - 14 | KUL - 30
+-#define LOGSTRIDE 20 // K32 - 20 | K8 - 20 | KUL - 3
++#define LOGSTR 2 // K32 - 4 | K8 - 4 | KUL - 20 
++#define NBWAYSTR 1 // K32 - 3 | K8 - 3 | KUL - 15
++#define TAGWIDTHSTR 5 // K32 - 14 | K8 - 14 | KUL - 30
++#define LOGSTRIDE 2 // K32 - 20 | K8 - 20 | KUL - 3
+ #endif
+ //END custom CS6354 16K//
+
+# 3.2565
+
+The average IPC is 3.2565999999999997
+The predictor size is 15.980224609375 kB
+you can find your logs in the logs directory
+done
+jht9sy@uportal01:~/coursework/cs6354/value_prediction_championship/value_predictor$ vi notes.txt 
+jht9sy@uportal01:~/coursework/cs6354/value_prediction_championship/value_predictor$ git diff
+diff --git a/mypredictor.h b/mypredictor.h
+index 8836986..2db9a6b 100644
+--- a/mypredictor.h
++++ b/mypredictor.h
+@@ -57,7 +57,7 @@ int HL[NHIST + 1] = { 0, 0, 3, 7, 15, 31, 63, 90, 127 };
+ #define UWIDTH 1 // K32 - 2 | K8 - 2 | KUL - 1 
+ #define LOGLDATA 8 // K32 - 9 | K8 - 7 | KUL - 20
+ #define LOGBANK 6 // K32 - 7 | K8 - 5| KUL - 20
+-#define TAGWIDTH 13 // K32 - 11 | K8 - 11| KUL - 15
++#define TAGWIDTH 14 // K32 - 11 | K8 - 11| KUL - 15
+ #define NBBANK 48 // K32 - 49 | K8 - 47| KUL - 63
+ 
+ #define NHIST 11 // K32 - 8 | K8 - 7 | KUL - 14
+@@ -66,10 +66,10 @@ int HL[NHIST + 1] = { 0, 0, 1, 3, 6, 12, 18, 30, 63, 90, 127, 191};
+ // K8 - int HL[NHIST + 1] = {0, 0, 1, 3, 6, 12, 18, 30}
+ // KUL - int HL[NHIST + 1] = {0, 0, 1, 3, 7, 15, 31, 47, 63, 95, 127, 191, 255, 383, 511}
+ 
+-#define LOGSTR 3 // K32 - 4 | K8 - 4 | KUL - 20 
+-#define NBWAYSTR 3 // K32 - 3 | K8 - 3 | KUL - 15
+-#define TAGWIDTHSTR 14 // K32 - 14 | K8 - 14 | KUL - 30
+-#define LOGSTRIDE 20 // K32 - 20 | K8 - 20 | KUL - 3
++#define LOGSTR 2 // K32 - 4 | K8 - 4 | KUL - 20 
++#define NBWAYSTR 1 // K32 - 3 | K8 - 3 | KUL - 15
++#define TAGWIDTHSTR 5 // K32 - 14 | K8 - 14 | KUL - 30
++#define LOGSTRIDE 2 // K32 - 20 | K8 - 20 | KUL - 3
+ #endif
+ //END custom CS6354 16K//
+ 
+# 3.2576
+
+The average IPC is 3.257600000000001
+The predictor size is 15.980224609375 kB
+you can find your logs in the logs directory
+done
+jht9sy@uportal01:~/coursework/cs6354/value_prediction_championship/value_predictor$ git diff
+diff --git a/mypredictor.h b/mypredictor.h
+index 8836986..0dc2798 100644
+--- a/mypredictor.h
++++ b/mypredictor.h
+@@ -57,19 +57,19 @@ int HL[NHIST + 1] = { 0, 0, 3, 7, 15, 31, 63, 90, 127 };
+ #define UWIDTH 1 // K32 - 2 | K8 - 2 | KUL - 1 
+ #define LOGLDATA 8 // K32 - 9 | K8 - 7 | KUL - 20
+ #define LOGBANK 6 // K32 - 7 | K8 - 5| KUL - 20
+-#define TAGWIDTH 13 // K32 - 11 | K8 - 11| KUL - 15
++#define TAGWIDTH 14 // K32 - 11 | K8 - 11| KUL - 15
+ #define NBBANK 48 // K32 - 49 | K8 - 47| KUL - 63
+ 
+-#define NHIST 11 // K32 - 8 | K8 - 7 | KUL - 14
+-int HL[NHIST + 1] = { 0, 0, 1, 3, 6, 12, 18, 30, 63, 90, 127, 191};
++#define NHIST 12 // K32 - 8 | K8 - 7 | KUL - 14
++int HL[NHIST + 1] = { 0, 0, 1, 3, 6, 12, 18, 30, 63, 90, 127, 191, 255};
+ // K32 - int HL[NHIST + 1] = {0, 0, 3, 7, 15, 31, 63, 90, 127}
+ // K8 - int HL[NHIST + 1] = {0, 0, 1, 3, 6, 12, 18, 30}
+ // KUL - int HL[NHIST + 1] = {0, 0, 1, 3, 7, 15, 31, 47, 63, 95, 127, 191, 255, 383, 511}
+ 
+-#define LOGSTR 3 // K32 - 4 | K8 - 4 | KUL - 20 
+-#define NBWAYSTR 3 // K32 - 3 | K8 - 3 | KUL - 15
+-#define TAGWIDTHSTR 14 // K32 - 14 | K8 - 14 | KUL - 30
+-#define LOGSTRIDE 20 // K32 - 20 | K8 - 20 | KUL - 3
++#define LOGSTR 2 // K32 - 4 | K8 - 4 | KUL - 20 
++#define NBWAYSTR 1 // K32 - 3 | K8 - 3 | KUL - 15
++#define TAGWIDTHSTR 5 // K32 - 14 | K8 - 14 | KUL - 30
++#define LOGSTRIDE 2 // K32 - 20 | K8 - 20 | KUL - 3
+ #endif
+ //END custom CS6354 16K//
+
+# we reduce the number of entries and then increase the number of tags
+# increase the usefulness counter width as well.
+
+The average IPC is 3.2602
+The predictor size is 16.495849609375 kB
+
+same configurations as above, UWIDTH-2, NBBANK - 47, tags - 15
+
+# decreasing the size of the Usefulness counter
+
+The average IPC is 3.2529000000000003
+The predictor size is 16.128662109375 kB
+
+interpretation - number entries (NBBANK) is more impacting than the tag width.
+
+# increase enries and decrease the width by one each.
+
+ (84690 bits) ||| TOTAL SIZE: 129566 bits
+The average IPC is 3.2559000000000005
+The predictor size is 15.816162109375 kB
+
+# submission_4
+
+/logs/2022-10-18_14-56-07/compute_int_18.txt:381:IPC          = 4.210
+./logs/2022-10-18_14-56-07/compute_int_25.txt:381:IPC          = 8.339
+./logs/2022-10-18_14-56-07/compute_int_26.txt:381:IPC          = 4.285
+./logs/2022-10-18_14-56-07/compute_int_27.txt:381:IPC          = 1.036
+./logs/2022-10-18_14-56-07/compute_int_9.txt:381:IPC          = 3.383
+./logs/2022-10-18_14-56-07/srv_0.txt:381:IPC          = 1.594
+./logs/2022-10-18_14-56-07/srv_10.txt:381:IPC          = 1.663
+./logs/2022-10-18_14-56-07/srv_20.txt:381:IPC          = 1.530
+./logs/2022-10-18_14-56-07/srv_30.txt:381:IPC          = 3.804
+./logs/2022-10-18_14-56-07/srv_40.txt:381:IPC          = 2.739
+./logs/2022-10-18_14-56-07/srv_40.txt:305:STORAGE SIZE: STRIDE (332 bits) |Value array:  (44544 bits) |VTAGE:  (86034 bits) ||| TOTAL SIZE: 130910 bits
+Adding 127 by default for the history register that TAGE uses
+predictor size in bits => 131037
+The average IPC is 3.2582999999999998
+The predictor size is 15.9957275390625 kB
+you can find your logs in the logs directory
+done
+
+-> best result ever within the storage budget.
+-> improvement over the 16.1kB version (submission 3)
+-> can we do better??
+
+# submission_6 and submission_5 do better than this
+
+check the commits for more information
+- adding more chaos to the hashing functions while keeping them orthogonal is really good for the predictor
+- while adding randomness, make sure to not add more context to the hashes. That will hinder performance.
+- submission 5 and 6 started out with lowered performance. But tweaking the hash functions made them perform really well.
+
+
+running compute int 25
+running compute int 26
+running compute int 27
+running compute int 9
+running srv 0
+running srv 10
+running srv 20
+running srv 40
+running srv 30
+finished running the traces with the updated value predictor
+grepping the results
+./logs/2022-10-24_17-15-17/compute_int_18.txt:381:IPC          = 4.218
+./logs/2022-10-24_17-15-17/compute_int_25.txt:381:IPC          = 8.344
+./logs/2022-10-24_17-15-17/compute_int_26.txt:381:IPC          = 4.269
+./logs/2022-10-24_17-15-17/compute_int_27.txt:381:IPC          = 1.037
+./logs/2022-10-24_17-15-17/compute_int_9.txt:381:IPC          = 3.395
+./logs/2022-10-24_17-15-17/srv_0.txt:381:IPC          = 1.594
+./logs/2022-10-24_17-15-17/srv_10.txt:381:IPC          = 1.665
+./logs/2022-10-24_17-15-17/srv_20.txt:381:IPC          = 1.530
+./logs/2022-10-24_17-15-17/srv_30.txt:381:IPC          = 3.805
+./logs/2022-10-24_17-15-17/srv_40.txt:381:IPC          = 2.741
+./logs/2022-10-24_17-15-17/srv_40.txt:305:STORAGE SIZE: STRIDE (332 bits) |Value array:  (44544 bits) |VTAGE:  (86034 bits) ||| TOTAL SIZE: 130910 bits
+Adding 127 by default for the history register that TAGE uses
+predictor size in bits => 131037
+The average IPC is 3.2598
+The predictor size is 15.9957275390625 kB
+you can find your logs in the logs directory
+done

@@ -1,49 +1,46 @@
-### Value Predictor (re)designed for better performance loads. Completely based on the EVES predictor proposed in the CVP v1.
+# CS6354 - Value Prediction Championship
 
-# CVP Infrastructure
+Name of submission - Oracle
 
-## CVP2v2 Changelog
+Team members - Khyati Kiyawat and Alenkruth Krishnan Murali
 
-**Preamble:** There have been many changes to the infrastructure to provide correct store data to contestants. However, the traces were initially generated with as little information as possible to fit Qualcomm's requirements for publishing the traces, and therefore some information has to be inferred in a best effort fashion. Specifically, store data is not guaranteed to be correct, even if it is correct the vast majority of the time. Similar for load addressing mode and store single vs. pair.
+Email - khyati@virginia.edu, alenkruth@virginia.edu
 
-- Infer store pair vs. store single to provide the correct store data to the updatePredictor() API. Notably, the trace does not contain addressing mode information and it is not obvious whether store A, B, C is the instruction stp A, B, [C] (or other addressing modes using a single register) or str A, [B + C] (or other similar addressing modes using two registers). **Best effort**.
-- Infer exception level as the stack pointer is not the same based on the exception level, and some traces switch between EL0 and EL1 quite often. **Best effort**.
-- Infer base register update for loads :
-  - Better reflects true performance as base register update would see the latency of the load while it is an ALU operation. Therefore, tight loops with base register update operation could run much slower than they should have. The base register update piece is of type **aluOp**.
-  - Better reflects memory footprint as base register update would access and modify the cache state while base register update does not involve the memory hierarchy. For instance, a load pair with base update from address X would be cracked into three pieces and load 8 bytes in each, from X, X + 8 and X + 16, which is wrong as the instruction does not load from X + 16 .. X + 23.
-  - **Best effort** : 
-    - ldp A, B, [A] may be miscategorized as load B, [A] with base register update if the output value of A matches the offset between the input value of A and the effective address (which would be an immediate offset that is not embedded in the trace) by coincidence.
-	- Another limitation is that for post-indexed with base register update addressing mode, the load piece(s) of the load instruction do not depend on the base register update piece of the instruction. However, in the current infrastructure, this false dependency is present (although it is unlikely to have significant impact as loads with base register update within loops will still be fully pipelined). This may be improved in a subsequent version by attempting to infer post- vs. pre- indexing via the base register value and the effective address.
-- Provide Store Data, access size and store single/pair information to the updatePredictor() API
-- Provide access size and store single/pair information to the speculativeUpdate() API
-- [mypredictor.cc](./mypredictor.cc) provides an example implementation of a memory tracker that builds an image of memory from store data information passed to updatePredictor() and counts mismatches. Also note the consideration of ARM's DCZVA (Data Cache zero-out cache line by VA). Mismatches are due to  :
-  - Uninitialized memory (the trace does not provide the state of memory at the start of the trace)
-  - Virtual aliasing (memory does not provide physical address or any other information that can help with virtual dealiasing). This is especially visible in server-class traces that heavily involve the system.
-  - Specific ARM instructions/idioms that modify memory without providing the trace with enough information to determine what memory was touched.
-  - Instruction miscategorization (store pair vs. store single) and exception level change miscategorization (the wrong SP value may be stored to memory)
-- Assume vector instructions always operate on both lanes. This is pessimistic from the point of view of the CVP2 infrastructure as it will generate more instructions as there is one piece for the lo lane and one piece for the hi lane of 128-bit vector operations. This was done to avoid missing some output data as the heuristic to determine hi/lo vs lo only was that the output of the hi part was 0, which is reasonable but occasionally incorrect. The consequence is an increased instruction count vs. CVP2v1 (e.g., compute_fp_9.gz). This may be improved in a subsequent version by tracking actual vector operand size via memory access size in load/store and propagating.
+## Organization of the repository
 
-**Conclusions:** Due to the improved address calculation flow (load + base register update case), the speedup brought by VP is likely to decrease as the base register is usually predictable and had a _minimum_ execution latency of 3 cycles in CVPv1, while it has a _maximum_ execution latency of 1 in CVP2v2. However, the base register update is now categorized as **aluOp**, so there is no hidden "low cost" operation behind loadOp in CVP2v2.
+The ``mypredictor.cc`` and ``mypredictor.h`` files contain the actual predictor.
 
+The ``run.sh`` is a bash script which will test the predictor against the given set of traces. The ``main.py`` file will be invoked by the bash script to compute the average IPC and area of the predictor, and print the result.
 
-## CVP1v1 Changelog
+In order to use the code, it is essental that you have the instruction traces. Please follow the instructions [here](./cvp-cs6354.pdf) to get a copy of the traces required.
 
-- New CVP Tracks (All, LoadsOnly, LoadsOnly + HitMiss Info)
-- TAGE/ITTAGE branch/target predictors (vs. perfect BP in CVP1)
-- Stride prefetcher at L1D (vs. no prefetcher in CVP1)
-- More realistic fetch bandwidth : no fetching past taken branch (vs. fetching past taken in CVP1)
-- Finite number of execution units (vs. infinite in CVP1)
-- Added 128KB 8-way assoc L1I (vs. idealized L1I in CVP1)
-- Increased L1D to 64KB (8-way) (vs. 32KB 4-way in CVP1)
-- Includes CVP1 winner as baseline value predictor (vs. under-performing FCM-based predictor in CVP1)
-- Added spdlog/fmt libraries for printing
+## Using the bash script
 
-## CVP - UVA CS6354 Changelog
+Once you have the required traces in a directory named ``traces`` within the base directory, you should be able to do a ``./run.sh`` to execute the bash script.
 
-- The mypredictor.cc file contains an parameterized implementation of the EVES predictor (winner of CVP1).
-- The mypredictor.h has parameters which can be tuned for testing out different configurations of the predictor.
+The bash script does the following,
+1. cleans and (re)makes the CVP executable which will execute the traces.
+2. creates a new log directory based on the timestamp at which you initiated the bash script.
+3. spawns N child processes to execute the traces. N being the number of traces present within the traces directory.
+4. waits till the traces are executed.
+5. Prints the IPC obtained on each trace.
+6. Invokes the python script to provide the average IPC and the storage size of the predictor.
+7. exits
+
+[Note]
+1. The predictor here is built totally off the EVES predictor designed by Dr. Seznec and team for the first value prediction championship (CVP1).
+2. We fine tune the EVES predictor to achieve the best load prediction possible given a storage area of 16kB and a set (relatively small) of traces.
+3. The python script is hardcoded to add 127 bits to the final bit count provided by the executable in order to factor in the GHR length in the overall count. The user should change it to get accurate storage value if they decide to update the GHR length. 
  
-## Examples & Tracks
+### Directly running with the ``cvp`` executable.
+
+This section provides instructions to the users who want to run the cvp executable on their own (without the bash script).
+
+As a first step, it is required that you _make_ the cvp executable everytime you update the predictor.
+
+Once that is done, you can use the ``cvp`` executable like any other executable.
+
+#### Examples & Tracks
 
 See Simulator options:
 
@@ -69,22 +66,22 @@ Baseline (no arguments) is equivalent to (prefetcher (`-P`), 512-window (`-w 512
 
 `./cvp -P -w 512 -M 8 -A 16 -F 16,16,1,1,1`
 
-## Notes
+#### Notes
 
 Run `make clean && make` to ensure your changes are taken into account.
 
-## Value Predictor Interface
+#### Value Predictor Interface
 
 See [cvp.h](./cvp.h) header.
 
-## Getting Traces
+#### Getting Traces (traces used in the actual value prediction)
 
 135 30M Traces @ [TAMU ](http://hpca23.cse.tamu.edu/CVP-1/public_traces/)
 
 2013 100M Traces @ [TAMU ](http://hpca23.cse.tamu.edu/CVP-1/secret_traces/)
 
 
-## Sample Output
+#### Sample Output
 
 ```
 VP_ENABLE = 1
@@ -177,14 +174,3 @@ correct predictions              = 885532 (4.46%)
 incorrect predictions            = 21692 (0.11%)
  Read 30002325 instrs 
 ```
-
-#notes
-
-While running the compute_int workloads and srv workloads (5 each)
-
-- IPC for Value predictor size:
-	1. 8K - 3.3119
-	2. 32K - 3.3479
-	3. Unlimited -
-	3. 16K (custom - <commit_ID>) - 
-
